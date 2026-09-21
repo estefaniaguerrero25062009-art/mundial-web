@@ -337,3 +337,38 @@ a { color: inherit; text-decoration: none; }
     justify-content: center;
 }
 .pagina-auth .auth-grid { width: 100%; max-width: 900px; }
+
+/* ===== FIX RESPONSIVE MÓVIL ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { max-width: 100%; overflow-x: hidden; }
+img, video, iframe { max-width: 100%; height: auto; }
+
+@media (max-width: 768px) {
+  .contenedor {
+    display: block !important;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 1rem;
+  }
+  .contenedor > * { max-width: 100%; min-width: 0; }
+
+  .flash-container {
+    position: static !important;
+    width: 100%;
+    margin: 0 0 1rem;
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+    gap: .5rem;
+    padding: .75rem 1rem;
+  }
+  .navbar nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem 1rem;
+    width: 100%;
+  }
+  .user-area { width: 100%; }
+}
