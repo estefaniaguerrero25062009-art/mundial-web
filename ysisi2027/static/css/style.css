@@ -372,3 +372,47 @@ img, video, iframe { max-width: 100%; height: auto; }
   }
   .user-area { width: 100%; }
 }
+
+/* ===== FIX MÓVIL: LOGIN / REGISTRO ===== */
+@media (max-width: 768px) {
+  .contenedor-auth {
+    display: block !important;
+    min-height: auto !important;
+    width: 100%;
+    padding: 1rem;
+  }
+  .pagina-auth .auth-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .pagina-auth .auth-grid > * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    padding: 1.25rem !important;
+  }
+
+  /* filas de 2 columnas del formulario (Contraseña/Confirmar, Ciudad/Edad) */
+  .pagina-auth form [class*="fila"],
+  .pagina-auth form [class*="row"],
+  .pagina-auth form [class*="grid"],
+  .pagina-auth form [class*="col"] {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: .75rem;
+    width: 100%;
+  }
+
+  .pagina-auth input,
+  .pagina-auth select,
+  .pagina-auth button,
+  .pagina-auth .btn {
+    width: 100%;
+    max-width: 100%;
+  }
+  .pagina-auth input[type="file"] { font-size: .9rem; }
+
+  /* galería de fotos */
+  .pagina-auth img { max-width: 100%; height: auto; }
+}
