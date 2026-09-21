@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}¿Y si, si? 2027{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <a href="{{ url_for('inicio') }}" class="logo">🏆 ¿Y si, si? 2027</a>
+        <nav>
+            <a href="{{ url_for('inicio') }}">Inicio</a>
+            <a href="{{ url_for('partidos') }}">Partidos</a>
+            <a href="{{ url_for('equipos') }}">Equipos</a>
+            <a href="{{ url_for('jugadores') }}">Jugadores</a>
+            <a href="{{ url_for('noticias') }}">Noticias</a>
+            <a href="{{ url_for('eliminatorias') }}">Eliminatorias</a>
+            <a href="{{ url_for('tabla_goles') }}">Tabla de goles</a>
+            <a href="{{ url_for('asistente_ia') }}">Asistente IA</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('apuestas') }}">Apuestas</a>
+                <a href="{{ url_for('boletos') }}">Boletos</a>
+                {% if current_user.es_admin %}
+                <a href="{{ url_for('admin_panel') }}">⚙️ Admin</a>
+                {% endif %}
+            {% endif %}
+        </nav>
+        <div class="user-area">
+            {% if current_user.is_authenticated %}
+                <span class="saludo">Hola, {{ current_user.nombre }}</span>
+                <a href="{{ url_for('logout') }}" class="btn-secundario">Salir</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn-secundario">Iniciar sesión</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <main class="contenedor">
+        {% with mensajes = get_flashed_messages(with_categories=true) %}
+            {% if mensajes %}
+                <div class="flash-container">
+                    {% for categoria, mensaje in mensajes %}
+                        <div class="flash flash-{{ categoria }}">{{ mensaje }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block contenido %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>© 2027 ¿Y si, si? — Proyecto escolar de sitio web deportivo.</p>
+    </footer>
+</body>
+</html>

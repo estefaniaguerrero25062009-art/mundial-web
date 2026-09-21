@@ -1,0 +1,46 @@
+{% extends "base_auth.html" %}
+{% block titulo %}Iniciar sesión — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<div class="auth-grid auth-grid-mejorado">
+    <div class="auth-visual auth-visual-foto">
+        <div class="auth-visual-badge">MUNDIAL 2027</div>
+        <div class="galeria-login">
+            <img src="https://images.pexels.com/photos/399187/pexels-photo-399187.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Cancha de fútbol iluminada" class="foto-login foto-login-grande">
+            <img src="https://images.pexels.com/photos/4122451/pexels-photo-4122451.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Partido de fútbol nocturno" class="foto-login foto-login-chica">
+            <img src="https://images.pexels.com/photos/15867405/pexels-photo-15867405.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Estadio de fútbol de noche" class="foto-login foto-login-chica">
+        </div>
+        <h2>¡Vive el Mundial 2027!</h2>
+        <p>32 selecciones, la mejor cobertura y toda la pasión del fútbol en un solo lugar.</p>
+        <ul class="lista-highlights">
+            <li>⚽ 32 equipos con plantillas completas</li>
+            <li>📊 Apuestas, boletos y tabla de goleo en vivo</li>
+            <li>🆔 Verificamos con IA que tu INE/CURP/acta sea un documento real</li>
+        </ul>
+    </div>
+
+    <div class="auth-form">
+        <h1>Iniciar sesión</h1>
+        <p class="subtitulo">Ingresa a tu cuenta</p>
+        <form method="POST" action="{{ url_for('login') }}">
+            <label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" name="correo" required>
+
+            <label for="contrasena">Contraseña</label>
+            <div class="campo-contrasena">
+                <input type="password" id="contrasena" name="contrasena" placeholder="••••••••" required>
+                <button type="button" class="boton-ojo" onclick="alternarContrasena('contrasena', this)" aria-label="Mostrar contraseña">👁️</button>
+            </div>
+
+            <div class="fila-opciones">
+                <label class="checkbox"><input type="checkbox" name="recordar"> Recordarme</label>
+                <a href="#" class="link-sutil">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <button type="submit" class="btn-primario">Iniciar sesión</button>
+        </form>
+        <div class="separador-auth"><span>o</span></div>
+        <p class="pie-form">¿No tienes cuenta? <a href="{{ url_for('registro') }}">Regístrate aquí</a></p>
+    </div>
+</div>
+{% endblock %}

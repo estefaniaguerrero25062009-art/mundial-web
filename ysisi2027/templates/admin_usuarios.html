@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block titulo %}Admin · Usuarios — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<a href="{{ url_for('admin_panel') }}" class="link-volver">← Volver al panel</a>
+<h1>Usuarios registrados</h1>
+<p class="subtitulo">{{ usuarios|length }} cuenta(s) registrada(s).</p>
+
+<table class="tabla">
+    <thead>
+        <tr><th>Nombre</th><th>Correo</th><th>Ciudad</th><th>Edad</th><th>Registro</th><th>Verificado</th><th>Acción</th></tr>
+    </thead>
+    <tbody>
+        {% for u in usuarios %}
+        <tr>
+            <td>{{ u.nombre }}{% if u.es_admin %} <span class="badge-resultado badge-ganada">Admin</span>{% endif %}</td>
+            <td>{{ u.correo }}</td>
+            <td>{{ u.ciudad }}</td>
+            <td>{{ u.edad }}</td>
+            <td>{{ u.fecha_registro.strftime('%d/%m/%Y') if u.fecha_registro else '' }}</td>
+            <td>
+                {% if u.get('verificado') %}
+                <span class="badge-resultado badge-ganada">✔ Verificado</span>
+                {% else %}
+                <span class="badge-resultado badge-pendiente">Sin verificar</span>
+                {% endif %}
+            </td>
+            <td>
+                <form method="POST" action="{{ url_for('admin_verificar_usuario', id_usuario=u._id) }}">
+                    <input type="hidden" name="verificado" value="{{ '0' if u.get('verificado') else '1' }}">
+                    <button type="submit" class="btn-secundario">
+                        {{ 'Quitar verificación' if u.get('verificado') else 'Marcar verificado' }}
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7">No hay usuarios registrados todavía.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

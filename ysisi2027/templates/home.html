@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% from "_macros_noticias.html" import icono_noticia %}
+{% block titulo %}Inicio — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+{% if noticias %}
+<section class="noticia-destacada">
+    <div class="noticia-destacada-texto">
+        <span class="etiqueta-destacada">NOTICIA DESTACADA</span>
+        <h1>{{ noticias[0].titulo }}</h1>
+        <p>{{ noticias[0].contenido }}</p>
+        <a href="{{ url_for('noticias') }}" class="btn-primario">Más info</a>
+    </div>
+    <div class="noticia-destacada-visual noticia-destacada-icono">
+        {{ icono_noticia(noticias[0].icono) }}
+    </div>
+</section>
+{% endif %}
+
+<section class="hero hero-foto">
+    <img src="https://images.pexels.com/photos/399187/pexels-photo-399187.jpeg?auto=compress&cs=tinysrgb&w=1400"
+         alt="Cancha de fútbol iluminada de noche" class="hero-foto-bg">
+    <div class="hero-contenido">
+        <h1>VIVE TU PASIÓN POR EL DEPORTE</h1>
+        <p>Noticias, estadísticas, partidos en vivo y mucho más...</p>
+        <a href="{{ url_for('partidos') }}" class="btn-primario">Ver más</a>
+    </div>
+</section>
+
+<section>
+    <h2>Partidos destacados</h2>
+    <div class="grid-tarjetas">
+        {% for p in partidos %}
+        <a href="{{ url_for('detalle_partido', id_partido=p._id) }}" class="tarjeta-partido">
+            <div class="equipo">
+                <img src="{{ p.equipo_local|bandera_por_nombre }}" alt="" class="bandera-mini">
+                {{ p.equipo_local }}
+            </div>
+            <span>vs</span>
+            <div class="equipo">
+                <img src="{{ p.equipo_visitante|bandera_por_nombre }}" alt="" class="bandera-mini">
+                {{ p.equipo_visitante }}
+            </div>
+            <div class="fecha">{{ p.fecha }}</div>
+        </a>
+        {% else %}
+        <p>Aún no hay partidos cargados.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section>
+    <h2>Últimas noticias</h2>
+    <div class="grid-tarjetas grid-noticias">
+        {% for n in noticias %}
+        <a href="{{ url_for('noticias') }}" class="tarjeta-noticia">
+            <div class="tarjeta-noticia-icono">{{ icono_noticia(n.icono) }}</div>
+            <div class="tarjeta-noticia-texto">
+                <h3>{{ n.titulo }}</h3>
+                <p>{{ n.fecha }}</p>
+            </div>
+        </a>
+        {% else %}
+        <p>Aún no hay noticias cargadas.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

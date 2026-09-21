@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titulo %}Admin · Noticias — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<a href="{{ url_for('admin_panel') }}" class="link-volver">← Volver al panel</a>
+<h1>Noticias</h1>
+<p style="margin-bottom:16px;">
+    <a href="{{ url_for('admin_nueva_noticia') }}" class="btn-primario">+ Nueva noticia</a>
+</p>
+
+<table class="tabla">
+    <thead>
+        <tr><th>Título</th><th>Fecha</th><th>Categoría</th><th>Ícono</th><th></th></tr>
+    </thead>
+    <tbody>
+        {% for n in noticias %}
+        <tr>
+            <td>{{ n.titulo }}</td>
+            <td>{{ n.fecha }}</td>
+            <td>{{ n.categoria }}</td>
+            <td>{{ n.icono }}</td>
+            <td><a href="{{ url_for('admin_editar_noticia', id_noticia=n._id) }}" class="btn-secundario">Editar</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5">No hay noticias todavía.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

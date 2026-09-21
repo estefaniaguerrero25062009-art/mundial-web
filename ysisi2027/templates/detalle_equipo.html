@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% from "_macros.html" import icono_jugador %}
+{% block titulo %}{{ equipo.nombre }} — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<a href="{{ url_for('equipos') }}" class="link-volver">← Volver a Equipos</a>
+
+<div class="detalle-equipo">
+    {% if equipo.codigo_pais %}
+    <img src="{{ equipo.codigo_pais|bandera_url('w160') }}" alt="Bandera de {{ equipo.nombre }}" class="bandera-grande">
+    {% else %}
+    <div class="escudo-grande">{{ equipo.bandera or "🛡️" }}</div>
+    {% endif %}
+    <div>
+        <h1>{{ equipo.nombre }} {% if equipo.apodo %}<span class="apodo-equipo">"{{ equipo.apodo }}"</span>{% endif %}</h1>
+        <p><strong>Origen:</strong> {{ equipo.origen }} {% if equipo.confederacion %}({{ equipo.confederacion }}){% endif %}</p>
+        <p><strong>Estadio:</strong> {{ equipo.estadio }}</p>
+    </div>
+</div>
+
+<div class="datos-generales">
+    <div>
+        <span class="dato-label">Títulos mundiales</span>
+        <strong>{{ equipo.titulos_mundiales if equipo.titulos_mundiales is defined else 0 }}</strong>
+    </div>
+    <div>
+        <span class="dato-label">Mejor resultado histórico</span>
+        <strong>{{ equipo.mejor_resultado or "—" }}</strong>
+    </div>
+</div>
+
+<section>
+    <h2>Historia</h2>
+    <p>{{ equipo.historia }}</p>
+</section>
+
+<section>
+    <h2>Plantilla completa</h2>
+    {% if jugadores %}
+    <table class="tabla">
+        <thead>
+            <tr><th></th><th>#</th><th>Jugador</th><th>Posición</th><th>Número</th><th>Dato</th></tr>
+        </thead>
+        <tbody>
+            {% for j in jugadores %}
+            <tr>
+                <td>{{ icono_jugador(j.numero, equipo.codigo_pais|color_equipo) }}</td>
+                <td>{{ loop.index }}</td>
+                <td>{{ j.nombre }}</td>
+                <td>{{ j.posicion }}</td>
+                <td>{{ j.numero }}</td>
+                <td class="dato-jugador">{{ j.dato or '' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Aún no hay jugadores registrados para este equipo.</p>
+    {% endif %}
+</section>
+{% endblock %}

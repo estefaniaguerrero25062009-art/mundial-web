@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% from "_macros_noticias.html" import icono_noticia %}
+{% block titulo %}{{ 'Editar' if noticia else 'Nueva' }} noticia — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<a href="{{ url_for('admin_noticias') }}" class="link-volver">← Volver a Noticias</a>
+<h1>{{ 'Editar noticia' if noticia else 'Nueva noticia' }}</h1>
+
+<form method="POST" class="form-apuesta">
+    <label for="titulo">Título</label>
+    <input type="text" name="titulo" id="titulo" value="{{ noticia.titulo if noticia else '' }}" required>
+
+    <label for="contenido">Contenido</label>
+    <input type="text" name="contenido" id="contenido" value="{{ noticia.contenido if noticia else '' }}" required>
+
+    <label for="fecha">Fecha (como texto, ej. "17 Sep 2026")</label>
+    <input type="text" name="fecha" id="fecha" value="{{ noticia.fecha if noticia else '' }}" required>
+
+    <label for="categoria">Categoría</label>
+    <select name="categoria" id="categoria">
+        {% for c in categorias %}
+        <option value="{{ c }}" {{ 'selected' if noticia and noticia.categoria == c }}>{{ c|capitalize }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="icono">Ícono (elige el que mejor represente la noticia)</label>
+    <select name="icono" id="icono">
+        {% for i in iconos %}
+        <option value="{{ i }}" {{ 'selected' if noticia and noticia.icono == i }}>{{ i|capitalize }}</option>
+        {% endfor %}
+    </select>
+
+    <div class="vista-previa-icono">
+        <span class="dato-label">Vista previa:</span>
+        <div class="tarjeta-noticia-grande-icono">{{ icono_noticia(noticia.icono if noticia else 'general') }}</div>
+    </div>
+
+    <button type="submit" class="btn-primario">{{ 'Guardar cambios' if noticia else 'Crear noticia' }}</button>
+</form>
+{% endblock %}

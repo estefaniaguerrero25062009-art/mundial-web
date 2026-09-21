@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block titulo %}Panel de administrador — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<h1>Panel de administrador</h1>
+<p class="subtitulo">Gestiona resultados de partidos, noticias y usuarios registrados.</p>
+
+<div class="grid-tarjetas">
+    <a href="{{ url_for('admin_partidos') }}" class="tarjeta-admin">
+        <h3>⚽ Resultados de partidos</h3>
+        <p>Captura el marcador final y resuelve apuestas automáticamente.</p>
+    </a>
+    <a href="{{ url_for('admin_noticias') }}" class="tarjeta-admin">
+        <h3>📰 Noticias</h3>
+        <p>Crea y edita las noticias que ven los usuarios.</p>
+    </a>
+    <a href="{{ url_for('admin_usuarios') }}" class="tarjeta-admin">
+        <h3>👤 Usuarios registrados</h3>
+        <p>Revisa las cuentas y marca su identidad como verificada.</p>
+    </a>
+</div>
+{% endblock %}

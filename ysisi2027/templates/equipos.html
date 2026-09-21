@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}Equipos — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<h1>Equipos</h1>
+<div class="grid-tarjetas">
+    {% for e in equipos %}
+    <a href="{{ url_for('detalle_equipo', id_equipo=e._id) }}" class="tarjeta-equipo">
+        {% if e.codigo_pais %}
+        <img src="{{ e.codigo_pais|bandera_url }}" alt="Bandera de {{ e.nombre }}" class="bandera-img">
+        {% else %}
+        <div class="escudo-placeholder">{{ e.bandera or "🛡️" }}</div>
+        {% endif %}
+        <span>{{ e.nombre }}</span>
+    </a>
+    {% else %}
+    <p>Aún no hay equipos cargados en la base de datos.</p>
+    {% endfor %}
+</div>
+{% endblock %}

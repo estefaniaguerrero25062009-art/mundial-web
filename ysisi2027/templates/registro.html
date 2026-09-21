@@ -1,0 +1,69 @@
+{% extends "base_auth.html" %}
+{% block titulo %}Crear cuenta — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<div class="auth-grid auth-grid-mejorado auth-grid-registro">
+    <div class="auth-visual auth-visual-foto">
+        <div class="auth-visual-badge">REGISTRO SEGURO</div>
+        <div class="galeria-login">
+            <img src="https://images.pexels.com/photos/186240/pexels-photo-186240.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Cancha de fútbol iluminada" class="foto-login foto-login-grande">
+            <img src="https://images.pexels.com/photos/33497806/pexels-photo-33497806.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Estadio de fútbol vacío" class="foto-login foto-login-chica">
+            <img src="https://images.pexels.com/photos/186239/pexels-photo-186239.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Cancha de fútbol de noche" class="foto-login foto-login-chica">
+        </div>
+        <h2>Únete al torneo</h2>
+        <p>Crea tu cuenta para acceder a todo el contenido del Mundial 2027.</p>
+        <ul class="lista-highlights">
+            <li>🔐 Tu contraseña se guarda cifrada, nunca en texto plano</li>
+            <li>🆔 Verificamos con IA que tu INE/CURP/acta sea un documento real</li>
+            <li>🔞 Las apuestas están bloqueadas para menores de 18 años</li>
+        </ul>
+    </div>
+
+    <div class="auth-form">
+        <h1>Crear cuenta</h1>
+        <p class="subtitulo">Completa tus datos para registrarte</p>
+        <form method="POST" action="{{ url_for('registro') }}" enctype="multipart/form-data">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" name="correo" required>
+
+            <div class="campos-en-fila">
+                <div>
+                    <label for="contrasena">Contraseña</label>
+                    <div class="campo-contrasena">
+                        <input type="password" id="contrasena" name="contrasena" placeholder="••••••••" required>
+                        <button type="button" class="boton-ojo" onclick="alternarContrasena('contrasena', this)" aria-label="Mostrar contraseña">👁️</button>
+                    </div>
+                </div>
+                <div>
+                    <label for="confirmar_contrasena">Confirmar contraseña</label>
+                    <div class="campo-contrasena">
+                        <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" placeholder="••••••••" required>
+                        <button type="button" class="boton-ojo" onclick="alternarContrasena('confirmar_contrasena', this)" aria-label="Mostrar contraseña">👁️</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="campos-en-fila">
+                <div>
+                    <label for="ciudad">Ciudad</label>
+                    <input type="text" id="ciudad" name="ciudad" placeholder="Ej. Toluca, Guadalajara..." pattern="[A-Za-zÀ-ÿ\s\.\-']{3,60}" title="Solo letras, sin números ni símbolos" required>
+                </div>
+                <div>
+                    <label for="edad">Edad</label>
+                    <input type="number" id="edad" name="edad" min="0" max="120" placeholder="Años" required>
+                </div>
+            </div>
+
+            <label for="comprobante_identidad">Sube tu INE, CURP o acta de nacimiento</label>
+            <input type="file" id="comprobante_identidad" name="comprobante_identidad" accept="image/png,image/jpeg" required>
+            <p class="nota-campo">Solo JPG o PNG (sin PDF). La IA revisa que la imagen de verdad sea una identificación antes de aceptar tu registro — no acepta otro tipo de documento.</p>
+
+            <button type="submit" class="btn-primario">Registrarme</button>
+        </form>
+        <p class="pie-form">¿Ya tienes cuenta? <a href="{{ url_for('login') }}">Inicia sesión</a></p>
+    </div>
+</div>
+{% endblock %}

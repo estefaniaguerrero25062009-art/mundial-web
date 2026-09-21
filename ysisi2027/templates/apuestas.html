@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block titulo %}Apuestas — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<h1>Apuestas</h1>
+<p class="subtitulo">Cuota fija de {{ cuota }}x: si aciertas tu predicción, ganas tu monto multiplicado por {{ cuota }}.</p>
+
+<form method="POST" class="form-apuesta">
+    <label for="id_partido">Selecciona el partido</label>
+    <select name="id_partido" id="id_partido" required>
+        {% for p in partidos %}
+        <option value="{{ p._id }}">{{ p.equipo_local }} vs {{ p.equipo_visitante }} ({{ p.fecha }})</option>
+        {% endfor %}
+    </select>
+
+    <label>Tu predicción</label>
+    <div class="opciones-prediccion">
+        <label><input type="radio" name="prediccion" value="local" required> Gana local</label>
+        <label><input type="radio" name="prediccion" value="empate"> Empate</label>
+        <label><input type="radio" name="prediccion" value="visitante"> Gana visitante</label>
+    </div>
+
+    <label for="monto">Monto de apuesta</label>
+    <input type="number" name="monto" id="monto" min="1" step="0.01" required oninput="actualizarGanancia()">
+    <p class="nota-campo" id="ganancia-preview">Si aciertas, ganarías: $0.00</p>
+
+    <button type="submit" class="btn-primario">Realizar apuesta</button>
+</form>
+
+<div class="info-box">
+    <strong>¿Cómo funciona?</strong>
+    <p>No se cobra dinero real — es una simulación para el proyecto escolar. Una vez que el partido
+    termina, el resultado de tu apuesta (Ganada/Perdida) se actualiza en la columna "Resultado" de tu
+    historial abajo. No se envían notificaciones por correo ni push; tienes que revisar esta página.</p>
+</div>
+
+<section>
+    <h2>Mi historial</h2>
+    <table class="tabla">
+        <thead>
+            <tr><th>Fecha</th><th>Predicción</th><th>Monto</th><th>Ganancia potencial</th><th>Resultado</th></tr>
+        </thead>
+        <tbody>
+            {% for a in apuestas %}
+            <tr>
+                <td>{{ a.fecha.strftime('%d/%m/%Y %H:%M') if a.fecha.strftime is defined else a.fecha }}</td>
+                <td>{{ a.prediccion|capitalize }}</td>
+                <td>${{ a.monto }}</td>
+                <td>${{ a.ganancia_potencial if a.ganancia_potencial is defined else (a.monto * cuota)|round(2) }}</td>
+                <td><span class="badge-resultado badge-{{ a.resultado }}">{{ a.resultado|capitalize }}</span></td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5">Aún no has realizado apuestas.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<script>
+function actualizarGanancia() {
+    const monto = parseFloat(document.getElementById('monto').value) || 0;
+    const cuota = {{ cuota }};
+    const ganancia = (monto * cuota).toFixed(2);
+    document.getElementById('ganancia-preview').textContent = 'Si aciertas, ganarías: $' + ganancia;
+}
+</script>
+{% endblock %}
