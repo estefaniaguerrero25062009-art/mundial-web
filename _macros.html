@@ -1,0 +1,8 @@
+{% macro icono_jugador(numero, color, tamano=36) %}
+<svg width="{{ tamano }}" height="{{ tamano }}" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" class="icono-jugador">
+    <circle cx="20" cy="20" r="20" fill="#132018"/>
+    <circle cx="20" cy="12" r="6" fill="#e8b98d"/>
+    <path d="M9 30 Q10 19 15 17 L18 20 L20 18 L22 20 L25 17 Q30 19 31 30 Q20 34 9 30Z" fill="{{ color }}" stroke="#0b1512" stroke-width="0.8"/>
+    <text x="20" y="28" text-anchor="middle" font-size="9" font-weight="700" fill="#ffffff" opacity="0.9">{{ numero }}</text>
+</svg>
+{% endmacro %}

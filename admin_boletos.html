@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block titulo %}Admin · Boletos — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<a href="{{ url_for('admin_panel') }}" class="link-volver">← Volver al panel</a>
+<h1>Boletos</h1>
+
+<div class="datos-generales">
+    <div>
+        <span class="dato-label">Total de compras</span>
+        <strong>{{ stats.total_compras }}</strong>
+    </div>
+    <div>
+        <span class="dato-label">Boletos vendidos</span>
+        <strong>{{ stats.total_boletos }}</strong>
+    </div>
+    <div>
+        <span class="dato-label">Ganancias totales</span>
+        <strong>${{ "%.2f"|format(stats.total_ingresos) }}</strong>
+    </div>
+</div>
+
+<section>
+    <h2>Desglose por tipo de boleto</h2>
+    <table class="tabla">
+        <thead>
+            <tr><th>Tipo</th><th>Cantidad vendida</th><th>Ingresos</th></tr>
+        </thead>
+        <tbody>
+            {% for tipo, datos in stats.por_tipo.items() %}
+            <tr>
+                <td>{{ tipo|capitalize }}</td>
+                <td>{{ datos.cantidad }}</td>
+                <td>${{ "%.2f"|format(datos.ingresos) }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3">Aún no hay boletos vendidos.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h2>Historial completo de compras</h2>
+    <table class="tabla">
+        <thead>
+            <tr><th>Folio</th><th>Partido</th><th>Tipo</th><th>Cantidad</th><th>Total</th><th>Fecha</th></tr>
+        </thead>
+        <tbody>
+            {% for b in boletos %}
+            <tr>
+                <td>{{ b.folio }}</td>
+                <td>{% if b.partido %}{{ b.partido.equipo_local }} vs {{ b.partido.equipo_visitante }}{% else %}—{% endif %}</td>
+                <td>{{ b.tipo_boleto|capitalize }}</td>
+                <td>{{ b.cantidad }}</td>
+                <td>${{ b.total }}</td>
+                <td>{{ b.fecha_compra.strftime('%d/%m/%Y %H:%M') if b.fecha_compra else '' }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6">Aún no hay compras registradas.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

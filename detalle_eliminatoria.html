@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}{{ eliminatoria.nombre }} — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<a href="{{ url_for('eliminatorias') }}" class="link-volver">← Volver a Eliminatorias</a>
+
+<h1>{{ eliminatoria.nombre }}</h1>
+<p><strong>Fase:</strong> {{ eliminatoria.fase }}</p>
+<p><strong>Del</strong> {{ eliminatoria.fecha_inicio }} <strong>al</strong> {{ eliminatoria.fecha_fin }}</p>
+<p>{{ eliminatoria.descripcion }}</p>
+
+<h2>Participantes</h2>
+<div class="grid-tarjetas">
+    {% for equipo in eliminatoria.equipos_participantes %}
+    <div class="tarjeta-equipo">{{ equipo }}</div>
+    {% else %}
+    <p>Sin equipos participantes registrados.</p>
+    {% endfor %}
+</div>
+{% endblock %}

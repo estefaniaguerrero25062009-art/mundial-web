@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block titulo %}Boletos — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<h1>Boletos</h1>
+
+<form method="POST" class="form-apuesta">
+    <label for="id_partido">Selecciona el partido</label>
+    <select name="id_partido" id="id_partido" required>
+        {% for p in partidos %}
+        <option value="{{ p._id }}">{{ p.equipo_local }} vs {{ p.equipo_visitante }} ({{ p.fecha }})</option>
+        {% else %}
+        <option value="" disabled>No hay partidos próximos disponibles</option>
+        {% endfor %}
+    </select>
+
+    <label for="tipo_boleto">Tipo de boleto</label>
+    <select name="tipo_boleto" id="tipo_boleto" required>
+        <option value="general">General — ${{ precios.general }}</option>
+        <option value="preferente">Preferente — ${{ precios.preferente }}</option>
+        <option value="vip">VIP — ${{ precios.vip }}</option>
+    </select>
+
+    <label for="cantidad">Cantidad</label>
+    <input type="number" name="cantidad" id="cantidad" min="1" max="10" value="1" required>
+
+    <button type="submit" class="btn-primario">Comprar boleto(s)</button>
+</form>
+
+<div class="info-box">
+    <strong>¿Cómo recibo mi boleto?</strong>
+    <p>Al comprar, tu boleto se guarda al instante en "Mis boletos" (abajo) con un folio único —
+    ese folio ES tu comprobante de compra, muéstralo en la entrada del estadio. No se envían
+    notificaciones por correo en este proyecto escolar; el folio en tu historial es la confirmación.</p>
+</div>
+
+<section>
+    <h2>Mis boletos</h2>
+    <table class="tabla">
+        <thead>
+            <tr><th>Folio</th><th>Partido</th><th>Tipo</th><th>Cantidad</th><th>Total</th><th>Fecha de compra</th></tr>
+        </thead>
+        <tbody>
+            {% for b in boletos %}
+            <tr>
+                <td>{{ b.folio }}</td>
+                <td>
+                    {% if b.partido %}
+                        {{ b.partido.equipo_local }} vs {{ b.partido.equipo_visitante }}
+                    {% else %}
+                        Partido no disponible
+                    {% endif %}
+                </td>
+                <td>{{ b.tipo_boleto|capitalize }}</td>
+                <td>{{ b.cantidad }}</td>
+                <td>${{ b.total }}</td>
+                <td>{{ b.fecha_compra.strftime('%d/%m/%Y %H:%M') if b.fecha_compra else '' }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6">Aún no has comprado boletos.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

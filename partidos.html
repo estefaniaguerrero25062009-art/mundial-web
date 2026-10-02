@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titulo %}Partidos — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<h1>Partidos</h1>
+<div class="tabs">
+    <a href="{{ url_for('partidos', estado='todos') }}" class="{{ 'activo' if estado_actual == 'todos' }}">Todos</a>
+    <a href="{{ url_for('partidos', estado='en_vivo') }}" class="{{ 'activo' if estado_actual == 'en_vivo' }}">En vivo</a>
+    <a href="{{ url_for('partidos', estado='proximos') }}" class="{{ 'activo' if estado_actual == 'proximos' }}">Próximos</a>
+    <a href="{{ url_for('partidos', estado='finalizados') }}" class="{{ 'activo' if estado_actual == 'finalizados' }}">Finalizados</a>
+</div>
+
+<div class="lista-partidos">
+    {% for p in partidos %}
+    <a href="{{ url_for('detalle_partido', id_partido=p._id) }}" class="fila-partido">
+        <img src="{{ p.equipo_local|bandera_por_nombre }}" alt="" class="bandera-mini">
+        <span class="equipo">{{ p.equipo_local }}</span>
+        <span>vs</span>
+        <img src="{{ p.equipo_visitante|bandera_por_nombre }}" alt="" class="bandera-mini">
+        <span class="equipo">{{ p.equipo_visitante }}</span>
+        <span class="fecha">{{ p.fecha }}</span>
+        {% if p.estadio %}<span class="fecha">📍 {{ p.estadio }}{% if p.pais_sede %}, {{ p.pais_sede }}{% endif %}</span>{% endif %}
+        {% if p.canal_transmision %}<span class="badge-canal" style="background:{{ p.canal_color or '#22c55e' }};">{{ p.canal_transmision }}</span>{% endif %}
+    </a>
+    {% else %}
+    <p>No hay partidos para mostrar.</p>
+    {% endfor %}
+</div>
+{% endblock %}

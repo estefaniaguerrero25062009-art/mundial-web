@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block titulo %}Nuevo partido — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<a href="{{ url_for('admin_partidos') }}" class="link-volver">← Volver a Partidos</a>
+<h1>Nuevo partido</h1>
+
+<form method="POST" class="form-apuesta">
+    <label for="equipo_local">Equipo local</label>
+    <select name="equipo_local" id="equipo_local" required>
+        {% for e in equipos %}
+        <option value="{{ e.nombre }}">{{ e.nombre }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="equipo_visitante">Equipo visitante</label>
+    <select name="equipo_visitante" id="equipo_visitante" required>
+        {% for e in equipos %}
+        <option value="{{ e.nombre }}">{{ e.nombre }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="fecha">Fecha (como texto, ej. "20 Jun 2027, 18:00")</label>
+    <input type="text" name="fecha" id="fecha" required>
+
+    <label for="estadio">Estadio</label>
+    <input type="text" name="estadio" id="estadio">
+
+    <label for="pais_sede">País sede</label>
+    <input type="text" name="pais_sede" id="pais_sede">
+
+    <label for="canal_transmision">Canal de transmisión</label>
+    <input type="text" name="canal_transmision" id="canal_transmision">
+
+    <button type="submit" class="btn-primario">Crear partido</button>
+</form>
+{% endblock %}

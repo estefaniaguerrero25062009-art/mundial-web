@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block titulo %}{{ partido.equipo_local }} vs {{ partido.equipo_visitante }} — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<a href="{{ url_for('partidos') }}" class="link-volver">← Volver a Partidos</a>
+
+<div class="marcador">
+    <div class="equipo-marcador">
+        <img src="{{ partido.equipo_local|bandera_por_nombre('w80') }}" alt="" class="bandera-marcador">
+        <div>{{ partido.equipo_local }}</div>
+    </div>
+    <div class="resultado">{{ partido.goles_local }} - {{ partido.goles_visitante }}</div>
+    <div class="equipo-marcador">
+        <img src="{{ partido.equipo_visitante|bandera_por_nombre('w80') }}" alt="" class="bandera-marcador">
+        <div>{{ partido.equipo_visitante }}</div>
+    </div>
+</div>
+<p class="estado-partido">{{ partido.estado }} · {{ partido.fecha }}</p>
+<p class="detalle-transmision">
+    {% if partido.estadio %}📍 {{ partido.estadio }}{% if partido.pais_sede %}, {{ partido.pais_sede }}{% endif %}{% endif %}
+    {% if partido.canal_transmision %}
+        &nbsp;|&nbsp; <span class="badge-canal" style="background:{{ partido.canal_color or '#22c55e' }};">{{ partido.canal_transmision }}</span>
+    {% endif %}
+</p>
+<p style="text-align:center;">
+    {% if current_user.is_authenticated and current_user.es_admin %}
+    <a href="{{ url_for('editar_horario_partido', id_partido=partido._id) }}" class="btn-secundario">✏️ Editar horario</a>
+    {% endif %}
+</p>
+
+<section>
+    <h2>Estadísticas del partido</h2>
+    <ul class="estadisticas-lista">
+        {% for stat in partido.estadisticas %}
+        <li>{{ stat.nombre }}: {{ stat.valor }}</li>
+        {% else %}
+        <li>Sin estadísticas cargadas.</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<section>
+    <h2>Eventos destacados</h2>
+    <ul>
+        {% for evento in partido.eventos %}
+        <li>{{ evento.minuto }}' — {{ evento.descripcion }}</li>
+        {% else %}
+        <li>Sin eventos registrados.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

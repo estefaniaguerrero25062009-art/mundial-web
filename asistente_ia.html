@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titulo %}Asistente IA — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<h1>Asistente de IA ⚽🤖</h1>
+<p class="subtitulo">Pregúntale sobre equipos, partidos o el torneo en general.</p>
+
+<form method="POST" class="form-apuesta">
+    <label for="pregunta">Tu pregunta</label>
+    <input type="text" name="pregunta" id="pregunta" placeholder="Ej. ¿Cuándo juega México?" value="{{ pregunta }}" required>
+    <button type="submit" class="btn-primario">Preguntar</button>
+</form>
+
+{% if respuesta %}
+<section class="respuesta-ia">
+    <h2>Respuesta</h2>
+    <p>{{ respuesta }}</p>
+</section>
+{% endif %}
+{% endblock %}

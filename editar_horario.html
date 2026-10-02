@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block titulo %}Editar horario — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<a href="{{ url_for('detalle_partido', id_partido=partido._id) }}" class="link-volver">← Volver al partido</a>
+
+<h1>Editar horario</h1>
+<p class="subtitulo">{{ partido.equipo_local }} vs {{ partido.equipo_visitante }}</p>
+
+<form method="POST" class="form-apuesta">
+    <label for="fecha">Nueva fecha y hora</label>
+    <input type="text" name="fecha" id="fecha" value="{{ partido.fecha }}" placeholder="Ej. 20 Jun 2027, 18:00" required>
+    <button type="submit" class="btn-primario">Guardar cambios</button>
+</form>
+{% endblock %}

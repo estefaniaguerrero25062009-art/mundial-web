@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block titulo %}Admin · Resultados — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<a href="{{ url_for('admin_panel') }}" class="link-volver">← Volver al panel</a>
+<h1>Partidos</h1>
+<p class="subtitulo">Marca el marcador final de un partido — al guardar, las apuestas de ese partido se resuelven automáticamente (Ganada/Perdida).</p>
+<p style="margin-bottom:16px;">
+    <a href="{{ url_for('admin_nuevo_partido') }}" class="btn-primario">+ Nuevo partido</a>
+</p>
+
+<table class="tabla">
+    <thead>
+        <tr><th>Partido</th><th>Estado</th><th colspan="2">Marcador final</th><th></th></tr>
+    </thead>
+    <tbody>
+        {% for p in partidos %}
+        <tr>
+            <td>{{ p.equipo_local }} vs {{ p.equipo_visitante }}<br><span class="dato-jugador">{{ p.fecha }}</span></td>
+            <td><span class="badge-resultado badge-{{ 'ganada' if p.estado == 'finalizados' else 'pendiente' }}">{{ p.estado }}</span></td>
+            <td colspan="2">
+                <form method="POST" action="{{ url_for('admin_actualizar_resultado', id_partido=p._id) }}" class="form-resultado-admin">
+                    <input type="number" name="goles_local" min="0" value="{{ p.goles_local }}" required>
+                    <span>-</span>
+                    <input type="number" name="goles_visitante" min="0" value="{{ p.goles_visitante }}" required>
+                    <button type="submit" class="btn-secundario">Guardar</button>
+                </form>
+            </td>
+            <td>
+                <form method="POST" action="{{ url_for('admin_eliminar_partido', id_partido=p._id) }}" onsubmit="return confirm('¿Eliminar este partido? También se borran sus apuestas y boletos.');">
+                    <button type="submit" class="btn-secundario" style="border-color: var(--rojo); color: var(--rojo);">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5">No hay partidos cargados.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

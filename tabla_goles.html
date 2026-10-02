@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% from "_macros.html" import icono_jugador %}
+{% block titulo %}Tabla de Goles — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<h1>Tabla de Goles</h1>
+<p class="subtitulo">Los máximos goleadores del torneo.</p>
+
+<table class="tabla">
+    <thead>
+        <tr><th></th><th>#</th><th>Jugador</th><th>Equipo</th><th>Posición</th><th>Goles</th></tr>
+    </thead>
+    <tbody>
+        {% for j in goleadores %}
+        <tr>
+            <td>{{ icono_jugador(j.numero, j.codigo_pais_equipo|color_equipo) }}</td>
+            <td>{{ loop.index }}</td>
+            <td>{{ j.nombre }}</td>
+            <td>
+                {% if j.codigo_pais_equipo %}<img src="{{ j.codigo_pais_equipo|bandera_url('w20') }}" alt="" class="bandera-mini">{% endif %}
+                {{ j.nombre_equipo }}
+            </td>
+            <td>{{ j.posicion }}</td>
+            <td><strong>{{ j.goles }}</strong></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6">Aún no hay goles registrados. Corre seed_data.py para cargar datos de ejemplo.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

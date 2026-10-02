@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}¿Y si, si? 2027{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="pagina-auth">
+    <header class="navbar navbar-auth">
+        <a href="{{ url_for('login') }}" class="logo">🏆 ¿Y si, si? 2027</a>
+    </header>
+
+    <main class="contenedor contenedor-auth">
+        {% with mensajes = get_flashed_messages(with_categories=true) %}
+            {% if mensajes %}
+                <div class="flash-container">
+                    {% for categoria, mensaje in mensajes %}
+                        <div class="flash flash-{{ categoria }}">{{ mensaje }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block contenido %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>© 2027 ¿Y si, si? — Proyecto escolar de sitio web deportivo.</p>
+    </footer>
+
+    <script>
+        function alternarContrasena(idCampo, boton) {
+            const campo = document.getElementById(idCampo);
+            if (campo.type === "password") {
+                campo.type = "text";
+                boton.textContent = "🙈";
+                boton.setAttribute("aria-label", "Ocultar contraseña");
+            } else {
+                campo.type = "password";
+                boton.textContent = "👁️";
+                boton.setAttribute("aria-label", "Mostrar contraseña");
+            }
+        }
+    </script>
+</body>
+</html>

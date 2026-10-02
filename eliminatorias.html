@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block titulo %}Eliminatorias — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<h1>Eliminatorias</h1>
+<div class="info-box">
+    <strong>¿Qué es esto?</strong>
+    <p>Aquí ves cómo avanza el torneo. Primero está la <strong>Fase de Grupos</strong>: los 32 equipos
+    se dividieron en 8 grupos de 4 (Grupo A, B, C...) y juegan entre sí dentro de su grupo. Los 2 mejores
+    de cada grupo avanzan a la <strong>Eliminación directa</strong> (Octavos de Final, Cuartos, Semifinal
+    y Final), donde el que pierde queda eliminado del torneo. Dale clic a cualquier tarjeta para ver
+    qué equipos están en ese grupo o fase.</p>
+</div>
+<div class="grid-tarjetas">
+    {% for e in eliminatorias %}
+    <a href="{{ url_for('detalle_eliminatoria', id_eliminatoria=e._id) }}" class="tarjeta-eliminatoria">
+        <h3>{{ e.nombre }}</h3>
+        <p>{{ e.fase }}</p>
+    </a>
+    {% else %}
+    <p>Aún no hay eliminatorias cargadas.</p>
+    {% endfor %}
+</div>
+{% endblock %}

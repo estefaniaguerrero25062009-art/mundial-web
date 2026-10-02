@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block titulo %}{{ 'Editar' if equipo else 'Nuevo' }} equipo — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<a href="{{ url_for('admin_equipos') }}" class="link-volver">← Volver a Equipos</a>
+<h1>{{ 'Editar equipo' if equipo else 'Nuevo equipo' }}</h1>
+
+<form method="POST" class="form-apuesta">
+    <label for="nombre">Nombre</label>
+    <input type="text" name="nombre" id="nombre" value="{{ equipo.nombre if equipo else '' }}" required>
+
+    <label for="codigo_pais">Código de país (ISO, ej. mx, ar, fr)</label>
+    <input type="text" name="codigo_pais" id="codigo_pais" value="{{ equipo.codigo_pais if equipo else '' }}" required>
+
+    <label for="origen">Origen / región</label>
+    <input type="text" name="origen" id="origen" value="{{ equipo.origen if equipo else '' }}">
+
+    <label for="estadio">Estadio</label>
+    <input type="text" name="estadio" id="estadio" value="{{ equipo.estadio if equipo else '' }}">
+
+    <label for="apodo">Apodo</label>
+    <input type="text" name="apodo" id="apodo" value="{{ equipo.apodo if equipo else '' }}">
+
+    <label for="confederacion">Confederación</label>
+    <input type="text" name="confederacion" id="confederacion" value="{{ equipo.confederacion if equipo else '' }}">
+
+    <label for="titulos_mundiales">Títulos mundiales</label>
+    <input type="number" name="titulos_mundiales" id="titulos_mundiales" min="0" value="{{ equipo.titulos_mundiales if equipo else 0 }}">
+
+    <label for="mejor_resultado">Mejor resultado histórico</label>
+    <input type="text" name="mejor_resultado" id="mejor_resultado" value="{{ equipo.mejor_resultado if equipo else '' }}">
+
+    <label for="historia">Historia</label>
+    <input type="text" name="historia" id="historia" value="{{ equipo.historia if equipo else '' }}">
+
+    <button type="submit" class="btn-primario">{{ 'Guardar cambios' if equipo else 'Crear equipo' }}</button>
+</form>
+{% endblock %}

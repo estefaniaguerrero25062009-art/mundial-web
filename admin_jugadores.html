@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block titulo %}Admin · Jugadores — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<a href="{{ url_for('admin_panel') }}" class="link-volver">← Volver al panel</a>
+<h1>Jugadores</h1>
+<p style="margin-bottom:16px;">
+    <a href="{{ url_for('admin_nuevo_jugador') }}" class="btn-primario">+ Nuevo jugador</a>
+</p>
+
+<table class="tabla">
+    <thead>
+        <tr><th>Nombre</th><th>Equipo</th><th>Posición</th><th>Número</th><th>Goles</th><th></th></tr>
+    </thead>
+    <tbody>
+        {% for j in jugadores %}
+        <tr>
+            <td>{{ j.nombre }}</td>
+            <td>{{ j.nombre_equipo }}</td>
+            <td>{{ j.posicion }}</td>
+            <td>{{ j.numero }}</td>
+            <td>{{ j.goles }}</td>
+            <td style="display:flex; gap:6px;">
+                <a href="{{ url_for('admin_editar_jugador', id_jugador=j._id) }}" class="btn-secundario">Editar</a>
+                <form method="POST" action="{{ url_for('admin_eliminar_jugador', id_jugador=j._id) }}" onsubmit="return confirm('¿Eliminar este jugador?');">
+                    <button type="submit" class="btn-secundario" style="border-color: var(--rojo); color: var(--rojo);">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6">No hay jugadores todavía.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

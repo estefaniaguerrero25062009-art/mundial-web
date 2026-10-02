@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block titulo %}{{ 'Editar' if jugador else 'Nuevo' }} jugador — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<a href="{{ url_for('admin_jugadores') }}" class="link-volver">← Volver a Jugadores</a>
+<h1>{{ 'Editar jugador' if jugador else 'Nuevo jugador' }}</h1>
+
+<form method="POST" class="form-apuesta">
+    <label for="nombre">Nombre</label>
+    <input type="text" name="nombre" id="nombre" value="{{ jugador.nombre if jugador else '' }}" required>
+
+    <label for="id_equipo">Equipo</label>
+    <select name="id_equipo" id="id_equipo" required>
+        {% for e in equipos %}
+        <option value="{{ e._id }}" {{ 'selected' if jugador and jugador.id_equipo|string == e._id|string }}>{{ e.nombre }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="posicion">Posición</label>
+    <select name="posicion" id="posicion">
+        <option value="Portero" {{ 'selected' if jugador and jugador.posicion == 'Portero' }}>Portero</option>
+        <option value="Defensa" {{ 'selected' if jugador and jugador.posicion == 'Defensa' }}>Defensa</option>
+        <option value="Mediocampista" {{ 'selected' if jugador and jugador.posicion == 'Mediocampista' }}>Mediocampista</option>
+        <option value="Delantero" {{ 'selected' if jugador and jugador.posicion == 'Delantero' }}>Delantero</option>
+    </select>
+
+    <label for="numero">Número</label>
+    <input type="number" name="numero" id="numero" min="1" max="99" value="{{ jugador.numero if jugador else 1 }}">
+
+    <label for="goles">Goles en el torneo</label>
+    <input type="number" name="goles" id="goles" min="0" value="{{ jugador.goles if jugador else 0 }}">
+
+    <label for="dato">Dato destacado</label>
+    <input type="text" name="dato" id="dato" value="{{ jugador.dato if jugador else '' }}">
+
+    <button type="submit" class="btn-primario">{{ 'Guardar cambios' if jugador else 'Crear jugador' }}</button>
+</form>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block titulo %}Admin · Apuestas — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<a href="{{ url_for('admin_panel') }}" class="link-volver">← Volver al panel</a>
+<h1>Apuestas</h1>
+<p class="subtitulo">Normalmente se resuelven solas al capturar el resultado de un partido, pero aquí puedes corregir manualmente si hace falta.</p>
+
+<table class="tabla">
+    <thead>
+        <tr><th>Usuario</th><th>Partido</th><th>Predicción</th><th>Monto</th><th>Resultado actual</th><th>Cambiar a</th></tr>
+    </thead>
+    <tbody>
+        {% for a in apuestas %}
+        <tr>
+            <td>{{ a.nombre_usuario }}</td>
+            <td>{% if a.partido %}{{ a.partido.equipo_local }} vs {{ a.partido.equipo_visitante }}{% else %}—{% endif %}</td>
+            <td>{{ a.prediccion|capitalize }}</td>
+            <td>${{ a.monto }}</td>
+            <td><span class="badge-resultado badge-{{ a.resultado }}">{{ a.resultado|capitalize }}</span></td>
+            <td>
+                <form method="POST" action="{{ url_for('admin_actualizar_resultado_apuesta', id_apuesta=a._id) }}" class="form-resultado-admin">
+                    <select name="resultado">
+                        <option value="pendiente" {{ 'selected' if a.resultado == 'pendiente' }}>Pendiente</option>
+                        <option value="ganada" {{ 'selected' if a.resultado == 'ganada' }}>Ganada</option>
+                        <option value="perdida" {{ 'selected' if a.resultado == 'perdida' }}>Perdida</option>
+                    </select>
+                    <button type="submit" class="btn-secundario">Guardar</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6">Aún no hay apuestas registradas.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

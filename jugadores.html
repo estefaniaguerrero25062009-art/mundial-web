@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% from "_macros.html" import icono_jugador %}
+{% block titulo %}Jugadores — ¿Y si, si? 2027{% endblock %}
+
+{% block contenido %}
+<h1>Jugadores</h1>
+<form method="GET" class="buscador">
+    <input type="text" name="q" placeholder="Buscar jugador..." value="{{ request.args.get('q', '') }}">
+    <button type="submit" class="btn-primario">Buscar</button>
+</form>
+
+<table class="tabla">
+    <thead>
+        <tr><th></th><th>#</th><th>Jugador</th><th>Equipo</th><th>Posición</th><th>Número</th></tr>
+    </thead>
+    <tbody>
+        {% for j in jugadores %}
+        <tr>
+            <td>{{ icono_jugador(j.numero, j.codigo_pais_equipo|color_equipo) }}</td>
+            <td>{{ loop.index }}</td>
+            <td>{{ j.nombre }}</td>
+            <td>{{ j.nombre_equipo }}</td>
+            <td>{{ j.posicion }}</td>
+            <td>{{ j.numero }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6">No se encontraron jugadores.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
